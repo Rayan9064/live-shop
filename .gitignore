@@ -1,0 +1,123 @@
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs and runtime files
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+pids/
+*.pid
+*.seed
+*.pid.lock
+tmp/
+temp/
+.cache/
+
+# Environment / secrets
+.env
+.env.*.local
+.env.local
+.env.production
+.env.production.local
+*.key
+*.pem
+*.crt
+secrets.yml
+config/credentials.yml.enc
+
+# Node
+node_modules/
+.npm
+.pnp.*
+.pnpm-store/
+
+# Build / distribution
+dist/
+build/
+out/
+public/build/
+coverage/
+reports/
+
+# Package managers (lock files are usually committed; uncomment if you want to ignore)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# IDEs / editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.iml
+*.tmproj
+*.vscode-test/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+env/
+venv/
+ENV/
+.venv/
+pip-wheel-metadata/
+python-local/
+
+# Ruby / Rails
+*.gem
+*.rbc
+.bundle/
+vendor/bundle/
+log/
+tmp/
+coverage/
+spec/reports/
+db/*.sqlite3
+db/*.sqlite3-journal
+
+# PHP
+vendor/
+composer.phar
+.phpunit.result.cache
+
+# Java / JVM
+target/
+*.class
+*.jar
+*.war
+*.ear
+.gradle/
+build/
+
+# Go
+bin/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Rust
+target/
+# Cargo.lock is usually committed for binaries; ignore if library-only
+# Cargo.lock
+
+# Misc
+*.sqlite
+*.sqlite3
+*.db
+*.DS_Store
+Thumbs.db
+.idea/
+*.orig
+*.bak
+*.swp
