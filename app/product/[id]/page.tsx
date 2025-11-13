@@ -13,7 +13,8 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
+export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const productData = {
     '1': {
       id: '1',
@@ -107,14 +108,14 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     }
   };
 
-  const product = productData[params.id as keyof typeof productData] || productData['1'];
+  const product = productData[id as keyof typeof productData] || productData['1'];
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <ProductDetailHeader productId={params.id} />
+      <ProductDetailHeader productId={id} />
       <ProductImageGallery images={product.images} productName={product.name} />
       <ProductInfo product={product} />
-      <ProductActions productId={params.id} price={product.price} />
+      <ProductActions productId={id} price={product.price} />
     </div>
   );
 }

@@ -12,6 +12,7 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function LiveStreamPage({ params }: { params: { id: string } }) {
-  return <LiveStreamInterface streamId={params.id} />;
+export default async function LiveStreamPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <LiveStreamInterface streamId={id} />;
 }

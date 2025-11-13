@@ -37,6 +37,7 @@ node_modules/
 .pnpm-store/
 
 # Build / distribution
+.next/
 dist/
 build/
 out/

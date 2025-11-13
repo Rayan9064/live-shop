@@ -11,7 +11,8 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function SellerProfilePage({ params }: { params: { id: string } }) {
+export default async function SellerProfilePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const sellerData = {
     '1': {
       id: '1',
@@ -79,13 +80,13 @@ export default function SellerProfilePage({ params }: { params: { id: string } }
     }
   };
 
-  const seller = sellerData[params.id as keyof typeof sellerData] || sellerData['1'];
+  const seller = sellerData[id as keyof typeof sellerData] || sellerData['1'];
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <SellerHeader sellerId={params.id} />
+      <SellerHeader sellerId={id} />
       <SellerProfile seller={seller} />
-      <SellerTabs sellerId={params.id} />
+      <SellerTabs sellerId={id} />
     </div>
   );
 }
