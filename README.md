@@ -1,3 +1,47 @@
+┌─────────────────────────────────────────────────────────────┐
+│                    CLIENT (Browser)                          │
+│              Next.js App (Static Export)                     │
+│                                                              │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │  lib/api.ts → Calls HTTP endpoints                   │  │
+│  │  GET /api/products                                    │  │
+│  └──────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+                          ↓ HTTPS
+┌─────────────────────────────────────────────────────────────┐
+│         Firebase Cloud Functions (Deployed to Google)        │
+│                                                              │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │  functions/src/index.ts                              │  │
+│  │  - Express API Server                                │  │
+│  │  - Authentication Middleware                         │  │
+│  │  - Business Logic                                    │  │
+│  │  - Inventory Management                              │  │
+│  └──────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────────┐
+│              Firestore Database (Google Cloud)               │
+│              Firebase Storage (Google Cloud)                 │
+└─────────────────────────────────────────────────────────────┘
+
+
+
+
+┌─────────────────────────────────────────────────────────────┐
+│                    CLIENT (Browser)                          │
+│              Next.js App (Static Export)                     │
+│                                                              │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │  lib/firestore.ts → Direct Firestore SDK calls       │  │
+│  │  getDocs(), addDoc(), etc.                           │  │
+│  └──────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+                          ↓ Direct SDK
+┌─────────────────────────────────────────────────────────────┐
+│              Firestore Database (Google Cloud)               │
+└─────────────────────────────────────────────────────────────┘
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
