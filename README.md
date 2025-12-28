@@ -8,6 +8,8 @@
 
 ### Architecture Overview (Cloud Functions)
 
+<img width="569" height="807" alt="image" src="https://github.com/user-attachments/assets/ed627c13-858e-42ac-b623-a0980bea344f" />
+
 ```plantuml
 @startuml
 !theme plain
@@ -56,6 +58,8 @@ end note
 
 ### Data Flow: Product Purchase
 
+<img width="835" height="726" alt="image" src="https://github.com/user-attachments/assets/9be51fb7-204b-4d09-a400-bb3cdc8af5b4" />
+
 ```plantuml
 @startuml
 skinparam backgroundColor #FEFEFE
@@ -103,6 +107,8 @@ deactivate Client
 ---
 
 ### Database Schema (ER Diagram)
+
+<img width="1267" height="530" alt="image" src="https://github.com/user-attachments/assets/867199c2-079d-48b2-a7fd-e0eef0e77d3f" />
 
 ```plantuml
 @startuml
