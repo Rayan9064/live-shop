@@ -30,6 +30,13 @@ temp/
 secrets.yml
 config/credentials.yml.enc
 
+# Firebase credentials
+firebase.cre
+*credentials*.js
+*credentials*.ts
+serviceAccountKey.json
+firebase-adminsdk*.json
+
 # Node
 node_modules/
 .npm

@@ -1,24 +1,85 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useAuth } from '@/app/providers/AuthProvider';
+import { getUserProfile, updateUserProfile } from '@/lib/userService';
 
 export default function PersonalInformationPage() {
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
-    firstName: 'Sarah',
-    lastName: 'Johnson',
-    email: 'sarah.johnson@email.com',
-    phone: '+1 (555) 123-4567',
-    dateOfBirth: '1995-06-15',
-    gender: 'Female'
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    dateOfBirth: '',
+    gender: ''
   });
 
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
-  const handleSave = () => {
-    setIsEditing(false);
-    // Save logic here
+  useEffect(() => {
+    async function loadUserData() {
+      if (!user) return;
+
+      setLoading(true);
+      try {
+        const profile = await getUserProfile(user.uid);
+        if (profile) {
+          // Split displayName into first and last name
+          const nameParts = (profile.displayName || '').split(' ');
+          const firstName = nameParts[0] || '';
+          const lastName = nameParts.slice(1).join(' ') || '';
+
+          setFormData({
+            firstName,
+            lastName,
+            email: profile.email || '',
+            phone: profile.phone || '',
+            dateOfBirth: profile.dateOfBirth || '',
+            gender: profile.gender || ''
+          });
+        }
+      } catch (error) {
+        console.error('Error loading user profile:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadUserData();
+  }, [user]);
+
+  const handleSave = async () => {
+    if (!user) return;
+
+    setSaving(true);
+    try {
+      const displayName = `${formData.firstName} ${formData.lastName}`.trim();
+      await updateUserProfile(user.uid, {
+        displayName,
+        phone: formData.phone,
+        dateOfBirth: formData.dateOfBirth,
+        gender: formData.gender,
+      });
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      alert('Failed to save changes. Please try again.');
+    } finally {
+      setSaving(false);
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-gray-300 border-t-black rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -33,10 +94,11 @@ export default function PersonalInformationPage() {
           </div>
           <button
             onClick={() => isEditing ? handleSave() : setIsEditing(true)}
-            className="text-sm font-medium"
+            disabled={saving}
+            className="text-sm font-medium disabled:opacity-50"
             style={{ color: '#072415' }}
           >
-            {isEditing ? 'Save' : 'Edit'}
+            {saving ? 'Saving...' : isEditing ? 'Save' : 'Edit'}
           </button>
         </div>
       </div>
@@ -76,7 +138,7 @@ export default function PersonalInformationPage() {
                   <input
                     type="text"
                     value={formData.firstName}
-                    onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                     disabled={!isEditing}
                     className="w-full p-3 border border-gray-200 rounded-xl text-sm disabled:bg-gray-50"
                   />
@@ -86,51 +148,51 @@ export default function PersonalInformationPage() {
                   <input
                     type="text"
                     value={formData.lastName}
-                    onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                     disabled={!isEditing}
                     className="w-full p-3 border border-gray-200 rounded-xl text-sm disabled:bg-gray-50"
                   />
                 </div>
               </div>
-              
+
               <div>
                 <label className="text-sm text-gray-500 mb-1 block">Email Address</label>
                 <input
                   type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   disabled={!isEditing}
                   className="w-full p-3 border border-gray-200 rounded-xl text-sm disabled:bg-gray-50"
                 />
               </div>
-              
+
               <div>
                 <label className="text-sm text-gray-500 mb-1 block">Phone Number</label>
                 <input
                   type="tel"
                   value={formData.phone}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   disabled={!isEditing}
                   className="w-full p-3 border border-gray-200 rounded-xl text-sm disabled:bg-gray-50"
                 />
               </div>
-              
+
               <div>
                 <label className="text-sm text-gray-500 mb-1 block">Date of Birth</label>
                 <input
                   type="date"
                   value={formData.dateOfBirth}
-                  onChange={(e) => setFormData({...formData, dateOfBirth: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
                   disabled={!isEditing}
                   className="w-full p-3 border border-gray-200 rounded-xl text-sm disabled:bg-gray-50"
                 />
               </div>
-              
+
               <div>
                 <label className="text-sm text-gray-500 mb-1 block">Gender</label>
                 <select
                   value={formData.gender}
-                  onChange={(e) => setFormData({...formData, gender: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
                   disabled={!isEditing}
                   className="w-full p-3 border border-gray-200 rounded-xl text-sm disabled:bg-gray-50"
                 >
